@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>RT RW Net</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--Static css import-->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'web/css/style.css' %}">
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">RT/RW NET</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#paket">Paket Internet</a></li>
+                <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h1 class="fw-bold">Layanan Internet RT/RW Net</h1>
+        <p class="text-muted">Internet stabil, cepat, dan terjangkau untuk rumah Anda</p>
+        <a href="#paket" class="btn btn-primary btn-lg mt-3">Lihat Paket</a>
+    </div>
+</section>
+
+<!-- Paket Internet -->
+<section id="paket" class="py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-4">Paket Internet</h2>
+
+        <div class="row g-4">
+            <!-- 10 Mbps -->
+            <div class="col-md-3">
+                <div class="card shadow h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">10 Mbps</h5>
+                        <p class="card-text">Cocok untuk browsing & streaming ringan</p>
+                        <a href="#" class="btn btn-success">Daftar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15 Mbps -->
+            <div class="col-md-3">
+                <div class="card shadow h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">15 Mbps</h5>
+                        <p class="card-text">Streaming HD & kerja online</p>
+                        <a href="#" class="btn btn-success">Daftar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 20 Mbps -->
+            <div class="col-md-3">
+                <div class="card shadow h-100 text-center">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">20 Mbps</h5>
+                        <p class="card-text">Cocok untuk keluarga & UMKM</p>
+                        <a href="#" class="btn btn-success">Daftar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 30 Mbps -->
+            <div class="col-md-3">
+                <div class="card shadow h-100 text-center border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">30 Mbps</h5>
+                        <p class="card-text">Kecepatan maksimal tanpa buffering</p>
+                        <a href="#" class="btn btn-primary">Daftar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Kontak -->
+<section id="kontak" class="bg-dark text-white py-4">
+    <div class="container text-center">
+        <h5 class="fw-bold mb-2">Kontak</h5>
+        <p class="mb-1">Muhamad Rizki</p>
+        <p class="mb-2">📞 0823-1229-0956</p>
+        <a href="https://wa.me/6282312290956" class="btn btn-success">Daftar via WhatsApp</a>
+    </div>
+</section>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
