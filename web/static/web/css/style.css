@@ -1,0 +1,75 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #0d6efd 0%,
+        #0dcaf0 50%,
+        #ffc107 100%
+    );
+}
+
+/* HERO */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #00cfff;
+    letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffc107;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+}
+
+/* PRICING SECTION */
+.pricing {
+    background: linear-gradient(
+        180deg,
+        #f8f9fa 0%,
+        #fff3cd 100%
+    );
+}
+
+/* PRICING CARD */
+.pricing-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-8px);
+}
+
+.price {
+    color: #ffc107;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
