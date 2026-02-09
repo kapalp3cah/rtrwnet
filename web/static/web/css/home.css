@@ -1,6 +1,24 @@
+/* HERO */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-content {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
 .hero-title {
     font-size: 4rem;
     font-weight: 800;
     color: #00cfff;
     letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffc107;
 }
