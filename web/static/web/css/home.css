@@ -43,21 +43,3 @@
         #fff3cd 100%
     );
 }
-
-/* PRICING CARD */
-.pricing-card {
-    border: none;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-}
-
-.pricing-card:hover {
-    transform: translateY(-8px);
-}
-
-.price {
-    color: #ffc107;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
