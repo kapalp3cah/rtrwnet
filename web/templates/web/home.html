@@ -11,7 +11,7 @@
 
 <!-- HERO -->
 <section class="hero text-center text-white">
-    <div class="container">
+    <div class="container justify-content-center">
         <h1 class="text-warning fw-bold">SELAMAT DATANG DI</h1>
         <h1 class="fw-bold text-info">BRZ WIFI</h1>
         <h1 class="text-warning fw-bold">SILAHKAN PILIH LAYANAN</h1>
@@ -19,43 +19,41 @@
 </section>
 
 <!-- PRICING -->
-<section class="pricing py-5">
+<section class="pricing py-4">
     <div class="container">
         <div class="row g-4 justify-content-center">
             <!--MAU PASANG-->
-            <div class="col-md-3"> 
-                <div class="card pricing-card text-center">
-                    <a href="{% url 'pricing' %}" class="card shadow h-100 text-center bg-light text-decoration-none p-5"> 
-                        <h3>Mau Pasang</h3> 
-                        <p class="text-muted">Lihat paket & Daftar</p> 
-                    </a>
-                </div> 
+            <div class="col-md-4"> 
+                <a href="{% url 'pricing' %}" class="card shadow text-center bg-light text-decoration-none p-4">
+                    <div class="card-body"> 
+                    <h3>Mau Pasang</h3> 
+                    <p class="text-muted">Lihat paket & Daftar</p> 
+                    </div>
+                </a>
             </div>
              <!-- 10 Mbps -->
-            <div class="col-md-3">
-                <div class="card pricing-card text-center">
+            <div class="col-md-4">
+                <div class="card shadow text-center bg-light text-decoration-none p-4">
                     <div class="card-body">
                         <h5 class="fw-bold">10 Mbps</h5>
-                        <h4 class="price">Rp 155K</h4>
+                        <p class="text-muted">Pembayaran & Lapor Gangguan</p> 
                     </div>
                 </div>
             </div> <!-- 10 Mbps -->
-            <div class="col-md-3">
-                <div class="card pricing-card text-center">
+            <div class="col-md-4">
+                <div class="card shadow text-center bg-light text-decoration-none p-4">
                     <div class="card-body">
-                        <h5 class="fw-bold">10 Mbps</h5>
-                        <h4 class="price">Rp 155K</h4>
+                        <h5 class="fw-bold">15 Mbps</h5>
+                        <p class="text-muted">Pembayaran & Lapor Gangguan</p> 
                     </div>
                 </div>
             </div>
             <!--SUDAH PASANG-->
-            <div class="col-md-3"> 
-                <div class="card pricing-card text-center">
-                    <a href="{% url 'pelanggan' %}" class="card shadow h-100 text-center bg-light text-decoration-none p-5"> 
+            <div class="col-md-4"> 
+                    <a href="{% url 'pelanggan' %}" class="card shadow text-center bg-light text-decoration-none p-4"> 
                         <h3>Sudah Pasang</h3> 
                         <p class="text-muted">Pembayaran & Lapor Gangguan</p> 
                     </a> 
-                </div>
             </div>
         </div>
     </div>
