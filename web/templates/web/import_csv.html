@@ -1,0 +1,20 @@
+<div class="container py-5">
+    <h2>Import Data Radboox</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.file }}
+        <br><br>
+        <button type="submit" class="btn btn-primary">
+            Import
+        </button>
+    </form>
+</div>

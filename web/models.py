@@ -42,3 +42,16 @@ class Pembayaran(models.Model):
 
     def __str__(self):
         return f"{self.nama} - {self.status}"
+
+class Pelanggan(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    username_radius = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=200)
+    profile = models.CharField(max_length=100)
+    ip_address = models.CharField(max_length=50, blank=True, null=True)
+    whatsapp = models.CharField(max_length=20)
+    invoice_status = models.CharField(max_length=20)
+    active_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.username_radius

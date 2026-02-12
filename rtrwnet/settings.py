@@ -127,8 +127,10 @@ STATIC_ROOT = '/home/kapalp3cah/static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+LOGIN_TEMPLATE = 'web/login.html'
 LOGIN_REDIRECT_URL = '/pelanggan/'
-LOGIN_URL = '/login/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login/'
+
 
 

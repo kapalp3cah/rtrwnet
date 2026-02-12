@@ -11,3 +11,7 @@ class PembayaranForm(forms.ModelForm):
     class Meta:
         model = Pembayaran
         fields = ['nama', 'no_wa', 'bulan_tagihan', 'bukti_transfer']
+
+
+class ImportCSVForm(forms.Form):
+    file = forms.FileField()
