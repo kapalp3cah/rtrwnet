@@ -1,17 +1,41 @@
-<div class="container text-center py-5">
-  <h2 class="fw-bold mb-4">Menu Pelanggan</h2>
+<div class="container py-5">
+    <h2 class="mb-4">Dashboard Pelanggan</h2>
 
-  <div class="row justify-content-center g-4">
-    <div class="col-md-4">
-      <a href="{% url 'bayar' %}" class="btn btn-success w-100 p-4">
-        💳 Informasi Pembayaran
-      </a>
-    </div>
+    <div class="row g-4">
 
-    <div class="col-md-4">
-      <a href="{% url 'gangguan' %}" class="btn btn-danger w-100 p-4">
-        🛠 Laporan Gangguan
-      </a>
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h5>Total Laporan Gangguan</h5>
+                <h2>{{ total_gangguan }}</h2>
+
+                {% if gangguan_terakhir %}
+                    <p>Status Terakhir: 
+                        <strong>{{ gangguan_terakhir.status }}</strong>
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'gangguan' %}" class="btn btn-danger">
+                    Buat Laporan
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow p-4">
+                <h5>Total Pembayaran</h5>
+                <h2>{{ total_pembayaran }}</h2>
+
+                {% if pembayaran_terakhir %}
+                    <p>Status Terakhir:
+                        <strong>{{ pembayaran_terakhir.status }}</strong>
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'bayar' %}" class="btn btn-success">
+                    Konfirmasi Pembayaran
+                </a>
+            </div>
+        </div>
+
     </div>
-  </div>
 </div>

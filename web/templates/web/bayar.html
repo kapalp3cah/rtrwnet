@@ -2,3 +2,14 @@
    class="btn btn-success btn-lg">
    Hubungi Admin Pembayaran
 </a>
+<div class="container py-5">
+    <h2 class="mb-4">Konfirmasi Pembayaran</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">
+            Kirim Bukti
+        </button>
+    </form>
+</div>

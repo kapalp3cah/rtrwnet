@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Gangguan, Pembayaran
 
-# Register your models here.
+admin.site.register(Gangguan)
+admin.site.register(Pembayaran)
