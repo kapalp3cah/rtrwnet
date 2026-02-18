@@ -3,70 +3,477 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>BRZ WIFI</title>
+    <title>BRZ WIFI - Internet Cepat & Stabil</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!--Tambahan Animasi-->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
+    
+    <!-- BRZ Azure Gold Theme - CSS Terpisah -->
+    <link rel="stylesheet" href="{% static 'web/css/brz-azure-gold.css' %}">
     <link rel="stylesheet" href="{% static 'web/css/home.css' %}">
+    
+    <style>
+        /* Navbar Custom Styles */
+        .navbar-brz {
+            background: linear-gradient(145deg, #00cfff, #0099cc) !important;
+            box-shadow: 0 4px 20px rgba(0,207,255,0.2);
+            padding: 15px 0;
+            border-bottom: 3px solid #ffc107;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brz .navbar-brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brz .navbar-brand i {
+            color: #ffc107;
+            font-size: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brz .navbar-brand:hover i {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .nav-link-brz {
+            color: white !important;
+            font-weight: 600;
+            padding: 8px 20px !important;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .nav-link-brz:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link-brz.active {
+            background: rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .user-welcome {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-welcome i {
+            color: #ffc107;
+            font-size: 18px;
+        }
+
+        .btn-login-customer {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login-customer:hover {
+            background: white;
+            color: #00cfff;
+            transform: translateY(-2px);
+        }
+
+        .btn-logout-customer {
+            background: rgba(220,53,69,0.9);
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-logout-customer:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+        }
+
+        .btn-wa-header {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+
+        .btn-wa-header:hover {
+            background: #128C7E;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 12px;
+        }
+
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: rgba(0,207,255,0.95);
+                padding: 20px;
+                border-radius: 16px;
+                margin-top: 15px;
+                backdrop-filter: blur(10px);
+            }
+            
+            .nav-link-brz {
+                text-align: center;
+                margin: 5px 0;
+            }
+            
+            .user-welcome {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero d-flex align-items-center py-5">
+<!-- ===== NAVBAR BRZ AZURE GOLD - LENGKAP ===== -->
+<nav class="navbar navbar-expand-lg navbar-brz">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="bi bi-router-fill"></i>
+            BRZ WIFI
+        </a>
+        
+        <!-- Toggler untuk mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" 
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">
+                        <i class="bi bi-house-door-fill"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz {% if '/pricing' in request.path %}active{% endif %}" href="{% url 'pricing' %}">
+                        <i class="bi bi-tags-fill"></i> Paket
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz {% if '/pelanggan' in request.path %}active{% endif %}" href="{% url 'pelanggan' %}">
+                        <i class="bi bi-people-fill"></i> Pelanggan
+                    </a>
+                </li>
+                {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz" href="{% url 'import_radboox' %}">
+                        <i class="bi bi-file-spreadsheet-fill"></i> Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz" href="/admin/">
+                        <i class="bi bi-speedometer2"></i> Admin
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            
+            <!-- User Section -->
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                {% if user.is_authenticated %}
+                    <span class="user-welcome">
+                        <i class="bi bi-person-circle"></i>
+                        {{ user.username }}
+                    </span>
+                    
+                    <!-- Form logout dengan POST -->
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;" id="logoutForm">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-logout-customer">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn-login-customer">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Login
+                    </a>
+                {% endif %}
+                
+                <!-- WhatsApp Button -->
+                <a href="https://wa.me/6282312290956" target="_blank" class="btn-wa-header">
+                    <i class="bi bi-whatsapp"></i>
+                    <span class="d-none d-lg-inline">Admin</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-home d-flex align-items-center">
     <div class="container">
         <div class="row align-items-center text-center text-md-start">
-
-            <!-- Text -->
-            <div class="col-md-6">
-                <h1 class="fw-bold text-warning">SELAMAT DATANG DI</h1>
-                <h1 class="fw-bold display-4 text-info mb-3 display-4">BRZ WIFI</h1>
-                <h4 class="fw-bold text-warning">SILAHKAN PILIH LAYANAN</h4>
+            <!-- Text Content -->
+            <div class="col-md-6 animate-fade-in">
+                <span class="welcome-badge">
+                    <i class="bi bi-star-fill me-2"></i> ISP TERPERCAYA 2025
+                </span>
+                
+                <h1 class="fw-bold display-6 mb-3">
+                    <span class="text-warning">SELAMAT DATANG DI</span>
+                </h1>
+                
+                <h1 class="fw-bold display-3 mb-3">
+                    <span class="text-info">BRZ WIFI</span>
+                </h1>
+                
+                <div class="highlight-box p-3 mt-3 d-inline-block" 
+                     style="background: rgba(255,193,7,0.1); border-radius: 50px; border: 1px solid rgba(255,193,7,0.3);">
+                    <h4 class="fw-bold mb-0">
+                        <span class="text-warning">
+                            <i class="bi bi-lightning-charge-fill me-2"></i>
+                            SILAHKAN PILIH LAYANAN
+                        </span>
+                    </h4>
+                </div>
+                
+                <!-- Feature Tags -->
+                <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+                    <span class="feature-tag">
+                        <i class="bi bi-wifi"></i> Kecepatan Tinggi
+                    </span>
+                    <span class="feature-tag">
+                        <i class="bi bi-shield-check"></i> Stabil 24/7
+                    </span>
+                    <span class="feature-tag">
+                        <i class="bi bi-headset"></i> Support 24 Jam
+                    </span>
+                    <span class="feature-tag">
+                        <i class="bi bi-tools"></i> Gratis Install
+                    </span>
+                </div>
             </div>
 
-            <!-- Icon -->
-            <div class="col-md-6 text-center">
-                <i class="bi bi-router-fill hero-icon"></i>
+            <!-- Hero Icon -->
+            <div class="col-md-6 text-center animate-fade-in">
+                <div class="position-relative d-inline-block">
+                    <i class="bi bi-router-fill hero-icon"></i>
+                    <div class="position-absolute bottom-0 end-0">
+                        <span class="badge bg-warning text-dark p-3 rounded-circle animate-pulse">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </span>
+                    </div>
+                </div>
+                <p class="text-secondary mt-3">
+                    <i class="bi bi-check-circle-fill text-warning me-2"></i>
+                    Gratis Pemasangan untuk semua paket
+                </p>
             </div>
-
         </div>
     </div>
 </section>
 
-
-<!-- MENU -->
-<section class="pricing py-5">
+<!-- ===== MENU LAYANAN ===== -->
+<section class="pricing-brz py-5">
     <div class="container">
-        <div class="row justify-content-center g-4">
+        <!-- Section Header -->
+        <div class="text-center mb-5 animate-fade-in">
+            <h2 class="fw-bold display-6 mb-3">
+                <span class="text-gradient-azure-gold">PILIH LAYANAN ANDA</span>
+            </h2>
+            <div class="divider-brz"></div>
+            <p class="lead text-secondary mt-3">
+                Satu langkah menuju internet cepat dan stabil
+            </p>
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <span class="badge-brz badge-brz-azure p-3">
+                    <i class="bi bi-people-fill me-2"></i> 500+ Pelanggan
+                </span>
+                <span class="badge-brz badge-brz-gold p-3">
+                    <i class="bi bi-building me-2"></i> 5+ Kecamatan
+                </span>
+            </div>
+        </div>
 
+        <!-- Menu Cards -->
+        <div class="row justify-content-center g-4">
             <!-- Mau Pasang -->
-            <div class="col-12 col-md-6 col-lg-5">
-                <a href="{% url 'pricing' %}"
-                   class="card pricing-card text-center text-decoration-none h-100 p-4">
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <h3 class="fw-bold">Mau Pasang</h3>
-                        <p class="text-muted mb-0">Lihat paket & Daftar</p>
-                    </div>
+            <div class="col-12 col-md-6 col-lg-5 animate-fade-in">
+                <a href="{% url 'pricing' %}" class="menu-card text-decoration-none">
+                    <i class="bi bi-router-fill menu-card-icon"></i>
+                    <h3 class="menu-card-title">MAU PASANG</h3>
+                    <div class="divider-brz-vertical"></div>
+                    <p class="menu-card-desc">Lihat paket & Daftar</p>
+                    <span class="menu-card-badge">
+                        <i class="bi bi-whatsapp me-2"></i> Daftar via WA
+                    </span>
+                    <span class="small text-secondary mt-3">
+                        <i class="bi bi-check-circle text-warning me-1"></i> Gratis konsultasi
+                    </span>
                 </a>
             </div>
 
             <!-- Sudah Pasang -->
-            <div class="col-12 col-md-6 col-lg-5">
-                <a href="{% url 'pelanggan' %}"
-                   class="card pricing-card text-center text-decoration-none h-100 p-4">
-                    <div class="card-body d-flex flex-column justify-content-center">
-                        <h3 class="fw-bold">Sudah Pasang</h3>
-                        <p class="text-muted mb-0">Pembayaran & Gangguan</p>
-                    </div>
+            <div class="col-12 col-md-6 col-lg-5 animate-fade-in">
+                <a href="{% url 'pelanggan' %}" class="menu-card text-decoration-none">
+                    <i class="bi bi-people-fill menu-card-icon"></i>
+                    <h3 class="menu-card-title">SUDAH PASANG</h3>
+                    <div class="divider-brz-vertical"></div>
+                    <p class="menu-card-desc">Pembayaran & Gangguan</p>
+                    <span class="menu-card-badge">
+                        <i class="bi bi-headset me-2"></i> Layanan Pelanggan
+                    </span>
+                    <span class="small text-secondary mt-3">
+                        <i class="bi bi-shield-check text-info me-1"></i> 24/7 Support
+                    </span>
                 </a>
             </div>
+        </div>
 
+        <!-- Stats Section -->
+        <div class="stats-home">
+            <div class="row justify-content-center">
+                <div class="col-md-3 col-6 stat-item-home">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Tahun Pengalaman</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item-home">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Pelanggan Aktif</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item-home">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Teknis</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item-home">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Garansi Puas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-home text-center animate-fade-in">
+            <p class="text-secondary mb-3 fs-5">
+                <i class="bi bi-question-circle-fill text-azure me-2"></i>
+                Butuh bantuan memilih paket?
+            </p>
+            <a href="https://wa.me/6282312290956" target="_blank" class="btn-brz-wa">
+                <i class="bi bi-whatsapp me-2"></i> Hubungi Admin via WhatsApp
+            </a>
+            <p class="mt-3 text-secondary small">
+                <i class="bi bi-shield-check text-gold me-2"></i>
+                Respon cepat <span class="mx-2">•</span> 
+                <i class="bi bi-clock-history text-azure me-2"></i> 24 Jam
+            </p>
         </div>
     </div>
 </section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer-brz">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 text-secondary">
+                    <i class="bi bi-router-fill text-azure me-2"></i>
+                    <span class="fw-bold">BRZ WIFI</span> - Azure Speed, Gold Service
+                </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                <span class="text-secondary me-3">
+                    <i class="bi bi-telephone-fill text-gold me-2"></i> 0823-1229-0956
+                </span>
+                <span class="text-secondary">
+                    <i class="bi bi-envelope-fill text-azure me-2"></i> cs@brznetworks.id
+                </span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <small class="text-muted">
+                    © 2025 BRZ WIFI. Semua hak dilindungi. 
+                    <span class="mx-2">|</span> 
+                    <i class="bi bi-shield-check text-azure"></i> Aman & Terpercaya
+                    <span class="mx-2">|</span>
+                    <span class="text-gold">BRZ Azure Gold Theme</span>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- BRZ Azure Gold Theme JS -->
+<script src="{% static 'web/js/brz-azure-gold.js' %}"></script>
+
+<script>
+    // Active nav link based on current URL
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link-brz');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath || 
+                (currentPath.startsWith('/pelanggan') && href === '/pelanggan/') ||
+                (currentPath.startsWith('/pricing') && href === '/pricing/')) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

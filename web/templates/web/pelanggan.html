@@ -3,115 +3,428 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Pelanggan</title>
+    <title>Dashboard Pelanggan - BRZ WIFI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    
+    <!-- BRZ Azure Gold Theme - CSS -->
+    <link rel="stylesheet" href="{% static 'web/css/brz-azure-gold.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/customer.css' %}">
 </head>
-<body class="bg-light">
+<body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<!-- ===== NAVBAR DENGAN LOGOUT YANG BENAR ===== -->
+<nav class="navbar navbar-expand-lg navbar-brz-customer">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">BRZ Networks</a>
-        <div class="ms-auto">
-            <span class="text-white me-3">
-                Halo, {{ request.user.username }} !
-            </span>
-            <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Logout</a>
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="bi bi-router-fill"></i>
+            BRZ WIFI
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCustomer">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarCustomer">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz" href="{% url 'pricing' %}">Paket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-brz active" href="{% url 'pelanggan' %}">Dashboard</a>
+                </li>
+            </ul>
+            
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-welcome">
+                    <i class="bi bi-person-circle"></i>
+                    {{ request.user.username }}
+                </span>
+                
+                <!-- INI YANG PENTING: FORM LOGOUT -->
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout-customer">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </nav>
 
 <div class="container py-4">
 
-    <!-- Judul -->
-    <div class="mb-4">
-        <h3 class="fw-bold">Dashboard Pelanggan</h3>
-        <p class="text-muted">Informasi layanan internet Anda</p>
+    <!-- ===== DASHBOARD HEADER ===== -->
+    <div class="dashboard-header fade-in-customer">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h1 class="dashboard-title">
+                    <span class="text-gradient-azure-gold">Dashboard Pelanggan</span>
+                </h1>
+                <div class="dashboard-subtitle">
+                    <span><i class="bi bi-envelope-fill text-azure"></i> {{ request.user.email|default:"email@example.com" }}</span>
+                    <span class="customer-badge">
+                        <i class="bi bi-star-fill"></i> Member Aktif
+                    </span>
+                </div>
+            </div>
+            <div class="text-end">
+                <small class="text-muted">
+                    <i class="bi bi-calendar3"></i> <span id="current-date"></span>
+                </small>
+                <button id="btn-refresh" class="btn-brz-outline ms-2" style="padding: 5px 15px;">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <!-- Statistik -->
-    <div class="row g-4 mb-4">
+    <!-- ===== INFORMASI LAYANAN ===== -->
+    <div class="subscription-card fade-in-customer">
+        <div class="subscription-title">
+            <i class="bi bi-router-fill"></i> Paket Aktif Anda
+        </div>
+        <div class="subscription-package">
+            <span id="package-name">
+                {% if paket_aktif %}
+                    {{ paket_aktif.nama }}
+                {% else %}
+                    BRZ WIFI
+                {% endif %}
+            </span>
+            <span id="package-speed">
+                {% if paket_aktif %}
+                    {{ paket_aktif.kecepatan }}
+                {% else %}
+                    20 Mbps
+                {% endif %}
+            </span>
+        </div>
+        <div class="subscription-price">
+            <span id="package-price">
+                {% if paket_aktif %}
+                    Rp {{ paket_aktif.harga|floatformat:0 }}
+                {% else %}
+                    Rp 205.000
+                {% endif %}
+            </span>
+            <small>/bulan</small>
+        </div>
+        <div class="subscription-date">
+            <div class="date-item">
+                <span class="date-label"><i class="bi bi-calendar-check"></i> Tanggal Pasang</span>
+                <span class="date-value" id="install-date">{{ tanggal_pasang|default:"15 Januari 2025" }}</span>
+            </div>
+            <div class="date-item">
+                <span class="date-label"><i class="bi bi-calendar-event"></i> Tagihan Bulan Ini</span>
+                <span class="date-value" id="due-date">{{ tagihan_bulan|default:"25 Februari 2025" }}</span>
+            </div>
+            <div class="date-item">
+                <span class="date-label"><i class="bi bi-tag"></i> Status</span>
+                <span class="date-value">
+                    <span class="status-badge-customer status-aktif">
+                        <i class="bi bi-check-circle"></i> Aktif
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h6 class="text-muted">Total Laporan Gangguan</h6>
-                    <h2 class="fw-bold text-primary">
-                        {{ total_gangguan }}
-                    </h2>
-                </div>
+    <!-- ===== STATISTIK CARDS ===== -->
+    <div class="stats-grid-customer">
+        <!-- Total Gangguan -->
+        <div class="stat-card-customer fade-in-customer">
+            <i class="bi bi-exclamation-triangle-fill stat-icon-customer"></i>
+            <div class="stat-label-customer">Total Laporan Gangguan</div>
+            <div class="stat-number-customer stat-number-azure" id="total-gangguan">
+                {{ total_gangguan|default:"0" }}
+            </div>
+            <div class="stat-trend-customer">
+                <i class="bi bi-clock-history"></i> Laporan terakhir: 
+                <span id="last-report-date">{{ gangguan_terakhir.tanggal|default:"-" }}</span>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
-                    <h6 class="text-muted">Total Pembayaran</h6>
-                    <h2 class="fw-bold text-success">
-                        {{ total_pembayaran }}
-                    </h2>
-                </div>
+        <!-- Total Pembayaran -->
+        <div class="stat-card-customer fade-in-customer">
+            <i class="bi bi-cash-stack stat-icon-customer" style="color: var(--customer-gold);"></i>
+            <div class="stat-label-customer">Total Pembayaran</div>
+            <div class="stat-number-customer stat-number-gold" id="total-pembayaran">
+                {{ total_pembayaran|default:"0" }}
+            </div>
+            <div class="stat-trend-customer">
+                <i class="bi bi-check-circle"></i> Status: 
+                <span id="last-payment-status">{{ pembayaran_terakhir.status|default:"Belum ada" }}</span>
             </div>
         </div>
-
     </div>
 
-    <!-- Informasi Terakhir -->
-    <div class="row g-4">
-
+    <!-- ===== INFORMASI DETAIL ===== -->
+    <div class="info-grid-customer">
         <!-- Gangguan Terakhir -->
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-warning text-dark fw-bold">
-                    Gangguan Terakhir
-                </div>
-                <div class="card-body">
-                    {% if gangguan_terakhir %}
-                        <p><strong>Tanggal:</strong> {{ gangguan_terakhir.tanggal }}</p>
-                        <p><strong>Status:</strong> {{ gangguan_terakhir.status }}</p>
-                        <p><strong>Keterangan:</strong></p>
-                        <p class="text-muted">{{ gangguan_terakhir.deskripsi }}</p>
-                    {% else %}
-                        <p class="text-muted">Belum ada laporan gangguan.</p>
-                    {% endif %}
-                </div>
+        <div class="info-card-customer fade-in-customer">
+            <div class="info-header-customer info-header-warning">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                Gangguan Terakhir
+                {% if gangguan_terakhir %}
+                <span class="status-badge-customer status-{{ gangguan_terakhir.status|lower }}" style="margin-left: auto;">
+                    {{ gangguan_terakhir.status }}
+                </span>
+                {% endif %}
+            </div>
+            <div class="info-body-customer">
+                {% if gangguan_terakhir %}
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Tanggal</span>
+                        <span class="info-value-customer">{{ gangguan_terakhir.tanggal|date:"d F Y H:i" }}</span>
+                    </div>
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">ID Laporan</span>
+                        <span class="info-value-customer">#{{ gangguan_terakhir.id|default:"BRZ001" }}</span>
+                    </div>
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Keterangan</span>
+                        <span class="info-value-customer">{{ gangguan_terakhir.deskripsi|truncatechars:100 }}</span>
+                    </div>
+                    <div class="mt-3">
+                        <a href="{% url 'detail_gangguan' gangguan_terakhir.id %}" class="btn-brz-outline" style="padding: 8px 20px; font-size: 14px;">
+                            Lihat Detail <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="empty-state-customer">
+                        <i class="bi bi-emoji-smile"></i>
+                        <h6>Belum Ada Gangguan</h6>
+                        <p class="small">Layanan Anda dalam kondisi baik</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <!-- Pembayaran Terakhir -->
+        <div class="info-card-customer fade-in-customer">
+            <div class="info-header-customer info-header-success">
+                <i class="bi bi-cash-coin"></i>
+                Pembayaran Terakhir
+                {% if pembayaran_terakhir %}
+                <span class="status-badge-customer status-{{ pembayaran_terakhir.status|lower }}" style="margin-left: auto;">
+                    {{ pembayaran_terakhir.status }}
+                </span>
+                {% endif %}
+            </div>
+            <div class="info-body-customer">
+                {% if pembayaran_terakhir %}
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Tanggal</span>
+                        <span class="info-value-customer">{{ pembayaran_terakhir.tanggal|date:"d F Y" }}</span>
+                    </div>
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Jumlah</span>
+                        <span class="info-value-customer fw-bold text-success">Rp {{ pembayaran_terakhir.jumlah|floatformat:0|default:"205000" }}</span>
+                    </div>
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Metode</span>
+                        <span class="info-value-customer">{{ pembayaran_terakhir.metode|default:"Transfer Bank" }}</span>
+                    </div>
+                    <div class="info-item-customer">
+                        <span class="info-label-customer">Periode</span>
+                        <span class="info-value-customer">{{ pembayaran_terakhir.periode|default:"Februari 2025" }}</span>
+                    </div>
+                    <div class="mt-3">
+                        <a href="{% url 'riwayat_pembayaran' %}" class="btn-brz-outline" style="padding: 8px 20px; font-size: 14px;">
+                            Riwayat Pembayaran <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="empty-state-customer">
+                        <i class="bi bi-credit-card"></i>
+                        <h6>Belum Ada Pembayaran</h6>
+                        <p class="small">Lakukan pembayaran pertama Anda</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RIWAYAT TERBARU ===== -->
+    <div class="row g-4 mb-4">
         <div class="col-md-6">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-success text-white fw-bold">
-                    Pembayaran Terakhir
+            <div class="info-card-customer fade-in-customer">
+                <div class="info-header-customer info-header-secondary">
+                    <i class="bi bi-clock-history"></i>
+                    Riwayat Gangguan (3 Terakhir)
                 </div>
-                <div class="card-body">
-                    {% if pembayaran_terakhir %}
-                        <p><strong>Tanggal:</strong> {{ pembayaran_terakhir.tanggal }}</p>
-                        <p><strong>Jumlah:</strong> Rp {{ pembayaran_terakhir.jumlah }}</p>
-                        <p><strong>Status:</strong> {{ pembayaran_terakhir.status }}</p>
-                    {% else %}
-                        <p class="text-muted">Belum ada riwayat pembayaran.</p>
+                <div class="info-body-customer">
+                    <div id="recent-tickets-list" class="list-group-customer">
+                        {% if riwayat_gangguan %}
+                            {% for gangguan in riwayat_gangguan|slice:":3" %}
+                            <div class="list-group-item-customer">
+                                <div>
+                                    <small class="text-muted">{{ gangguan.tanggal|date:"d/m/Y" }}</small>
+                                    <div class="fw-bold">{{ gangguan.deskripsi|truncatechars:50 }}</div>
+                                </div>
+                                <span class="status-badge-customer status-{{ gangguan.status|lower }}">{{ gangguan.status }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state-customer">
+                                <i class="bi bi-check2-circle text-success"></i>
+                                <p>Tidak ada riwayat gangguan</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if riwayat_gangguan %}
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'riwayat_gangguan' %}" class="btn-brz-outline">Lihat Semua</a>
+                    </div>
                     {% endif %}
                 </div>
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="info-card-customer fade-in-customer">
+                <div class="info-header-customer info-header-secondary">
+                    <i class="bi bi-receipt"></i>
+                    Riwayat Pembayaran (3 Terakhir)
+                </div>
+                <div class="info-body-customer">
+                    <div id="recent-payments-list" class="list-group-customer">
+                        {% if riwayat_pembayaran %}
+                            {% for pembayaran in riwayat_pembayaran|slice:":3" %}
+                            <div class="list-group-item-customer">
+                                <div>
+                                    <small class="text-muted">{{ pembayaran.tanggal|date:"d/m/Y" }}</small>
+                                    <div class="fw-bold">Rp {{ pembayaran.jumlah|floatformat:0 }}</div>
+                                </div>
+                                <span class="status-badge-customer status-{{ pembayaran.status|lower }}">{{ pembayaran.status }}</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state-customer">
+                                <i class="bi bi-wallet2"></i>
+                                <p>Belum ada riwayat pembayaran</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if riwayat_pembayaran %}
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'riwayat_pembayaran' %}" class="btn-brz-outline">Lihat Semua</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Tombol Aksi -->
-    <div class="mt-5 text-center">
-        <a href="{% url 'gangguan' %}" class="btn btn-warning me-2">
-            Buat Laporan Gangguan
+    <!-- ===== QUICK ACTIONS ===== -->
+    <div class="quick-actions-customer mb-4">
+        <a href="#" id="btn-speed-test" class="btn-quick-customer">
+            <i class="bi bi-speedometer2"></i> Tes Kecepatan
         </a>
-        <a href="{% url 'bayar' %}" class="btn btn-success">
-            Upload Bukti Pembayaran
+        <a href="#" id="btn-check-bill" class="btn-quick-customer">
+            <i class="bi bi-receipt"></i> Cek Tagihan
+        </a>
+        <a href="#" id="btn-invoice" class="btn-quick-customer">
+            <i class="bi bi-file-pdf"></i> Invoice
+        </a>
+        <a href="#" class="btn-quick-customer btn-copy" data-copy="082312290956">
+            <i class="bi bi-files"></i> Salin No. Rekening
         </a>
     </div>
 
+    <!-- ===== ACTION BUTTONS ===== -->
+    <div class="action-section-customer fade-in-customer text-center">
+        <h2 class="action-title-customer">
+            <span class="text-gradient-azure-gold">Butuh Bantuan?</span>
+        </h2>
+        <p class="text-muted mb-4">
+            Pilih layanan yang Anda butuhkan, tim kami siap membantu 24/7
+        </p>
+        
+        <div class="action-buttons-customer">
+            <a href="{% url 'gangguan' %}" id="btn-report-issue" class="btn-action-customer btn-warning-customer">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                Buat Laporan Gangguan
+            </a>
+            <a href="{% url 'bayar' %}" id="btn-upload-payment" class="btn-action-customer btn-success-customer">
+                <i class="bi bi-upload"></i>
+                Upload Bukti Pembayaran
+            </a>
+            <a href="#" id="btn-chat-admin" class="btn-action-customer btn-wa-customer">
+                <i class="bi bi-whatsapp"></i>
+                Chat Admin
+            </a>
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+            <span class="feature-tag-customer feature-tag-azure">
+                <i class="bi bi-headset"></i> Support 24 Jam
+            </span>
+            <span class="feature-tag-customer feature-tag-success">
+                <i class="bi bi-shield-check"></i> Garansi Layanan
+            </span>
+        </div>
+    </div>
 </div>
+
+<!-- Footer -->
+<footer class="footer-brz">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0 text-secondary">
+                    <i class="bi bi-router-fill text-azure me-2"></i>
+                    <span class="fw-bold">BRZ WIFI</span>
+                </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+                <span class="text-secondary me-3">
+                    <i class="bi bi-telephone-fill text-gold me-2"></i> 0823-1229-0956
+                </span>
+                <span class="text-secondary">
+                    <i class="bi bi-envelope-fill text-azure me-2"></i> cs@brznetworks.id
+                </span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <small class="text-muted">
+                    © 2025 BRZ WIFI. Semua hak dilindungi. 
+                    <span class="mx-2">|</span> 
+                    <i class="bi bi-shield-check text-azure"></i> Aman & Terpercaya
+                    
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- BRZ Azure Gold Theme JS -->
+<script src="{% static 'web/js/brz-azure-gold.js' %}"></script>
+<script src="{% static 'web/js/customer.js' %}"></script>
+
+<script>
+    // Display current date
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateEl = document.getElementById('current-date');
+        if (dateEl) {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateEl.textContent = now.toLocaleDateString('id-ID', options);
+        }
+    });
+</script>
 
 </body>
 </html>

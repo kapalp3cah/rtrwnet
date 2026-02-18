@@ -55,3 +55,27 @@ class Pelanggan(models.Model):
 
     def __str__(self):
         return self.username_radius
+
+class Radboox(models.Model):
+    # Sesuaikan dengan struktur CSV
+    no = models.IntegerField(null=True, blank=True)
+    username = models.CharField(max_length=100, unique=True)
+    password = models.CharField(max_length=100)
+    profile = models.CharField(max_length=100)
+    nas = models.CharField(max_length=100, blank=True, null=True)
+    service = models.CharField(max_length=50, blank=True, null=True)
+    ip = models.GenericIPAddressField(blank=True, null=True)
+    name = models.CharField(max_length=200)  # Nama lengkap
+    phone = models.CharField(max_length=20)   # No telepon
+    address = models.TextField(blank=True, null=True)  # Alamat
+    
+    # Tambahan field untuk tracking
+    imported_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='Aktif')
+    
+    class Meta:
+        verbose_name = "Data Radboox"
+        verbose_name_plural = "Data Radboox"
+    
+    def __str__(self):
+        return f"{self.username} - {self.name}"

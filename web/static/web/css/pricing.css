@@ -1,44 +1,320 @@
+/* ======================================== */
+/*  PRICING PAGE - BRZ AZURE GOLD THEME    */
+/*  Blue Router Zone - Daftar Paket        */
+/* ======================================== */
 
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            min-height: 100vh;
-        }
+@import url('brz-azure-gold.css');
 
-        .hero {
-            padding: 80px 0;
-        }
+/* ===== PRICING SPECIFIC STYLES ===== */
 
-        .pricing-card {
-            border: none;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            color: white;
-            transition: 0.3s;
-        }
+/* Hero Pricing */
+.hero-pricing {
+    composes: hero-brz;
+    background: linear-gradient(135deg, var(--brz-white) 0%, var(--brz-cream) 100%);
+}
 
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
+.hero-pricing-icon {
+    composes: hero-icon-brz;
+}
 
-        .price {
-            font-weight: bold;
-            font-size: 28px;
-            margin: 15px 0;
-            color: #ffc107;
-        }
+/* Package Cards */
+.package-card {
+    composes: card-brz;
+    padding: 35px 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: var(--brz-white);
+}
 
-        .btn-warning {
-            font-weight: bold;
-            border-radius: 30px;
-        }
+.package-card.popular {
+    border: 3px solid var(--brz-gold);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-gold);
+}
 
-        .btn-success {
-            border-radius: 30px;
-            font-weight: bold;
-        }
+.package-card.popular::before {
+    content: '⭐ PALING POPULER';
+    position: absolute;
+    top: 25px;
+    right: -40px;
+    background: var(--brz-gold);
+    color: var(--brz-dark);
+    padding: 8px 50px;
+    font-size: 12px;
+    font-weight: 800;
+    transform: rotate(45deg);
+    box-shadow: var(--shadow-sm);
+    letter-spacing: 1px;
+    z-index: 2;
+}
 
-        h1 span {
-            color: #ffc107;
-        }
+.package-icon {
+    font-size: 56px;
+    color: var(--brz-azure);
+    margin-bottom: 20px;
+    transition: all var(--transition-normal);
+}
+
+.package-card:hover .package-icon {
+    color: var(--brz-gold);
+    transform: scale(1.1);
+}
+
+.package-speed {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--brz-dark);
+    margin-bottom: 5px;
+}
+
+.package-price {
+    font-size: 44px;
+    font-weight: 900;
+    color: var(--brz-azure);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.package-price small {
+    font-size: 18px;
+    color: var(--brz-gray);
+    font-weight: normal;
+}
+
+.package-card:hover .package-price {
+    color: var(--brz-gold-dark);
+}
+
+/* Feature List */
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0 30px;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.feature-item {
+    padding: 12px 0;
+    color: var(--brz-dark);
+    border-bottom: 1px dashed #e9ecef;
+    display: flex;
+    align-items: center;
+}
+
+.feature-item:last-child {
+    border-bottom: none;
+}
+
+.feature-item i {
+    color: var(--brz-gold);
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.feature-item i.bi-star-fill,
+.feature-item i.bi-trophy-fill {
+    color: var(--brz-gold);
+}
+
+/* Package Button */
+.btn-package {
+    composes: btn-brz-azure;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+}
+
+.package-card.popular .btn-package {
+    background: var(--gradient-gold);
+    color: var(--brz-dark);
+    box-shadow: var(--shadow-gold);
+}
+
+.package-card.popular .btn-package:hover {
+    background: linear-gradient(145deg, var(--brz-gold-dark), var(--brz-gold));
+}
+
+/* Promo Badges */
+.promo-badge {
+    composes: badge-brz;
+    margin: 0 8px;
+}
+
+.promo-badge-gratis {
+    composes: badge-brz-gold;
+    padding: 12px 25px;
+    font-size: 15px;
+}
+
+.promo-badge-mulai {
+    composes: badge-brz-azure;
+    padding: 12px 25px;
+    font-size: 15px;
+}
+
+/* Guarantee Section */
+.guarantee-section {
+    margin-top: 60px;
+    padding: 40px 0;
+    background: rgba(255,255,255,0.7);
+    border-radius: var(--radius-lg);
+}
+
+.guarantee-item {
+    text-align: center;
+    padding: 25px 15px;
+    transition: var(--transition-normal);
+}
+
+.guarantee-item:hover {
+    transform: translateY(-5px);
+}
+
+.guarantee-icon {
+    font-size: 48px;
+    color: var(--brz-azure);
+    margin-bottom: 20px;
+    transition: var(--transition-normal);
+}
+
+.guarantee-item:hover .guarantee-icon {
+    color: var(--brz-gold);
+    transform: scale(1.1);
+}
+
+.guarantee-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--brz-dark);
+}
+
+.guarantee-text {
+    color: var(--brz-gray);
+    font-size: 15px;
+}
+
+/* Comparison Table (if needed) */
+.table-brz {
+    background: var(--brz-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.table-brz thead th {
+    background: var(--gradient-azure);
+    color: var(--brz-white);
+    font-weight: 700;
+    border: none;
+    padding: 18px 15px;
+}
+
+.table-brz tbody td {
+    padding: 15px;
+    vertical-align: middle;
+    border-color: #e9ecef;
+}
+
+.table-brz tbody tr:hover {
+    background: rgba(0,207,255,0.02);
+}
+
+/* FAQ Pricing */
+.faq-pricing {
+    margin-top: 60px;
+}
+
+.accordion-brz {
+    border: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.accordion-brz .accordion-item {
+    border: 1px solid rgba(0,207,255,0.1);
+    margin-bottom: 15px;
+    border-radius: var(--radius-md) !important;
+    overflow: hidden;
+}
+
+.accordion-brz .accordion-button {
+    font-weight: 700;
+    color: var(--brz-dark);
+    background: var(--brz-white);
+    padding: 20px 25px;
+}
+
+.accordion-brz .accordion-button:not(.collapsed) {
+    background: linear-gradient(145deg, var(--brz-azure), var(--brz-azure-dark));
+    color: var(--brz-white);
+}
+
+.accordion-brz .accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,207,255,0.3);
+}
+
+.accordion-brz .accordion-body {
+    padding: 25px;
+    background: var(--brz-light);
+}
+
+/* Responsive Pricing */
+@media (max-width: 992px) {
+    .package-card.popular {
+        transform: scale(1);
+    }
+    
+    .package-price {
+        font-size: 36px;
+    }
+    
+    .package-speed {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .package-card {
+        padding: 25px 20px;
+    }
+    
+    .package-icon {
+        font-size: 48px;
+    }
+    
+    .package-price {
+        font-size: 32px;
+    }
+    
+    .package-price small {
+        font-size: 16px;
+    }
+    
+    .feature-item {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .package-card.popular::before {
+        font-size: 11px;
+        padding: 6px 40px;
+        top: 20px;
+        right: -35px;
+    }
+    
+    .guarantee-icon {
+        font-size: 40px;
+    }
+    
+    .guarantee-title {
+        font-size: 18px;
+    }
+}

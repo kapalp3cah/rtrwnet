@@ -127,10 +127,17 @@ STATIC_ROOT = '/home/kapalp3cah/static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-LOGIN_TEMPLATE = 'web/login.html'
-LOGIN_REDIRECT_URL = '/pelanggan/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/accounts/login/'
+# ===== LOGIN/LOGOUT CONFIGURATION =====
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'  # PENTING: Redirect setelah logout
 
+# ===== LOGOUT CONFIGURATION =====
+LOGOUT_REDIRECT_URL = 'home'  # Atau 'login' jika ingin ke halaman login
+
+# ===== SESSION CONFIGURATION =====
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Session expired saat browser ditutup
+SESSION_COOKIE_AGE = 86400  # 1 hari
+SESSION_SAVE_EVERY_REQUEST = True  # Session diupdate setiap request
 
 
