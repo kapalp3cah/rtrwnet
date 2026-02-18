@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('pelanggan/bayar/', views.bayar, name='bayar'),
     path('pelanggan/gangguan/', views.gangguan, name='gangguan'),
+    path('pembayaran/', views.pembayaran, name='pembayaran'),
 
     # Import/Export
     path('import-radboox/', views.import_radboox, name='import_radboox'),

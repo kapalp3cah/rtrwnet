@@ -1,0 +1,162 @@
+/* ======================================== */
+/*  NAVBAR - BRZ AZURE GOLD THEME          */
+/*  Blue Router Zone - Komponen Navigasi   */
+/* ======================================== */
+
+.navbar-brz {
+    background: linear-gradient(145deg, #00cfff, #0099cc) !important;
+    box-shadow: 0 4px 20px rgba(0,207,255,0.2);
+    padding: 15px 0;
+    border-bottom: 3px solid #ffc107;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brz .navbar-brand {
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-brz .navbar-brand i {
+    color: #ffc107;
+    font-size: 32px;
+    transition: all 0.3s ease;
+}
+
+.navbar-brz .navbar-brand:hover i {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.nav-link-brz {
+    color: white !important;
+    font-weight: 600;
+    padding: 8px 20px !important;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    margin: 0 5px;
+}
+
+.nav-link-brz:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+.nav-link-brz.active {
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.user-welcome {
+    background: rgba(255,255,255,0.15);
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-welcome i {
+    color: #ffc107;
+    font-size: 18px;
+}
+
+.btn-login-customer {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-login-customer:hover {
+    background: white;
+    color: #00cfff;
+    transform: translateY(-2px);
+}
+
+.btn-logout-customer {
+    background: rgba(220,53,69,0.9);
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-logout-customer:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+}
+
+.btn-wa-header {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+.btn-wa-header:hover {
+    background: #128C7E;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 12px;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+@media (max-width: 992px) {
+    .navbar-collapse {
+        background: rgba(0,207,255,0.95);
+        padding: 20px;
+        border-radius: 16px;
+        margin-top: 15px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .nav-link-brz {
+        text-align: center;
+        margin: 5px 0;
+    }
+    
+    .user-welcome {
+        text-align: center;
+        justify-content: center;
+    }
+}

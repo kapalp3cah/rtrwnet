@@ -13,52 +13,13 @@
     
     <!-- BRZ Azure Gold Theme - CSS -->
     <link rel="stylesheet" href="{% static 'web/css/brz-azure-gold.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}">  <!-- PENTING: Tambahkan navbar.css -->
     <link rel="stylesheet" href="{% static 'web/css/customer.css' %}">
 </head>
 <body>
 
-<!-- ===== NAVBAR DENGAN LOGOUT YANG BENAR ===== -->
-<nav class="navbar navbar-expand-lg navbar-brz-customer">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">
-            <i class="bi bi-router-fill"></i>
-            BRZ WIFI
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCustomer">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarCustomer">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a class="nav-link nav-link-brz" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-brz" href="{% url 'pricing' %}">Paket</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-brz active" href="{% url 'pelanggan' %}">Dashboard</a>
-                </li>
-            </ul>
-            
-            <div class="d-flex align-items-center gap-3">
-                <span class="user-welcome">
-                    <i class="bi bi-person-circle"></i>
-                    {{ request.user.username }}
-                </span>
-                
-                <!-- INI YANG PENTING: FORM LOGOUT -->
-                <form method="post" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn-logout-customer">
-                        <i class="bi bi-box-arrow-right"></i> Logout
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav>
+<!-- ===== HEADER DENGAN INCLUDE (GANTI NAVBAR LAMA) ===== -->
+{% include 'includes/header.html' %}  <!-- ← Gunakan header yang sama -->
 
 <div class="container py-4">
 
@@ -325,21 +286,39 @@
         </div>
     </div>
 
-    <!-- ===== QUICK ACTIONS ===== -->
-    <div class="quick-actions-customer mb-4">
-        <a href="#" id="btn-speed-test" class="btn-quick-customer">
-            <i class="bi bi-speedometer2"></i> Tes Kecepatan
-        </a>
-        <a href="#" id="btn-check-bill" class="btn-quick-customer">
-            <i class="bi bi-receipt"></i> Cek Tagihan
-        </a>
-        <a href="#" id="btn-invoice" class="btn-quick-customer">
-            <i class="bi bi-file-pdf"></i> Invoice
-        </a>
-        <a href="#" class="btn-quick-customer btn-copy" data-copy="082312290956">
-            <i class="bi bi-files"></i> Salin No. Rekening
-        </a>
+    <!-- ===== INFO PEMBAYARAN CARD (Tambah di atas statistik) ===== -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card" style="background: linear-gradient(145deg, #e8f4ff, #d9edff); border: 1px solid #00cfff; border-radius: 16px;">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div style="width: 50px; height: 50px; background: #00cfff; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-credit-card fs-3 text-white"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Informasi Pembayaran</h5>
+                            <p class="mb-0 text-muted small">BCA, Mandiri, BRI, OVO, GoPay, DANA, QRIS</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'pembayaran' %}" class="btn" style="background: #00cfff; color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none;">
+                        <i class="bi bi-arrow-right-circle"></i> Lihat Disini
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+<!-- ===== QUICK ACTIONS (Tambah tombol pembayaran) ===== -->
+<div class="quick-actions-customer mb-4">
+    <a href="#" id="btn-speed-test" class="btn-quick-customer">
+        <i class="bi bi-speedometer2"></i> Tes Kecepatan
+    </a>
+    <a href="#" id="btn-check-bill" class="btn-quick-customer">
+        <i class="bi bi-receipt"></i> Cek Tagihan
+    </a>
+</div>
 
     <!-- ===== ACTION BUTTONS ===== -->
     <div class="action-section-customer fade-in-customer text-center">
@@ -376,55 +355,14 @@
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="footer-brz">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-secondary">
-                    <i class="bi bi-router-fill text-azure me-2"></i>
-                    <span class="fw-bold">BRZ WIFI</span>
-                </p>
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                <span class="text-secondary me-3">
-                    <i class="bi bi-telephone-fill text-gold me-2"></i> 0823-1229-0956
-                </span>
-                <span class="text-secondary">
-                    <i class="bi bi-envelope-fill text-azure me-2"></i> cs@brznetworks.id
-                </span>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-12 text-center">
-                <small class="text-muted">
-                    © 2025 BRZ WIFI. Semua hak dilindungi. 
-                    <span class="mx-2">|</span> 
-                    <i class="bi bi-shield-check text-azure"></i> Aman & Terpercaya
-                    
-                </small>
-            </div>
-        </div>
-    </div>
-</footer>
+<!-- ===== FOOTER DENGAN INCLUDE ===== -->
+{% include 'includes/footer.html' %}
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- BRZ Azure Gold Theme JS -->
 <script src="{% static 'web/js/brz-azure-gold.js' %}"></script>
 <script src="{% static 'web/js/customer.js' %}"></script>
-
-<script>
-    // Display current date
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateEl = document.getElementById('current-date');
-        if (dateEl) {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            dateEl.textContent = now.toLocaleDateString('id-ID', options);
-        }
-    });
-</script>
 
 </body>
 </html>

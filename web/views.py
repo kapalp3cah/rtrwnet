@@ -218,6 +218,12 @@ def import_radboox(request):
     }
     return render(request, 'web/import_radboox.html', context)
 
+
+# pembayaran
+def pembayaran(request):
+    """Halaman informasi pembayaran"""
+    return render(request, 'web/pembayaran.html')
+
 # ======================
 # Upload CSV
 # ======================
