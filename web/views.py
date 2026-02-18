@@ -1,40 +1,19 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.models import User
 from datetime import datetime
-import pandas as pd
-
-import io
-import chardet
 import csv
-from .forms import CSVUploadForm
-from .models import Radboox
+import io
 from django.http import HttpResponse
-import os
-from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 
-
-from .forms import GangguanForm, PembayaranForm
-from .models import Gangguan, Pembayaran, Pelanggan
+from .forms import CSVUploadForm, GangguanForm, PembayaranForm  
+from .models import Radboox, Gangguan  
 
 
 # ======================
 # PUBLIC AREA
 # ======================
-
-@login_required
-def pelanggan(request):
-    # Hanya user yang login bisa akses
-    return render(request, 'web/pelanggan.html')
-
-@login_required
-def import_radboox(request):
-    # Hanya admin yang bisa akses
-    if not request.user.is_staff:
-        return redirect('home')
-    
 
 def home(request):
     return render(request, 'web/home.html')
@@ -44,64 +23,92 @@ def pricing(request):
     return render(request, 'web/pricing.html')
 
 
+def pembayaran(request):
+    """Halaman informasi metode pembayaran"""
+    return render(request, 'web/pembayaran.html')
+
+
 # ======================
-# CUSTOMER AREA (LOGIN REQUIRED)
+# CUSTOMER AREA
 # ======================
 
 @login_required
 def pelanggan(request):
+    """Dashboard pelanggan - ringkasan gangguan"""
     gangguan_list = Gangguan.objects.filter(user=request.user).order_by('-tanggal')
-    pembayaran_list = Pembayaran.objects.filter(user=request.user).order_by('-tanggal')
+    # HAPUS pembayaran_list
 
     context = {
         'total_gangguan': gangguan_list.count(),
-        'total_pembayaran': pembayaran_list.count(),
         'gangguan_terakhir': gangguan_list.first(),
-        'pembayaran_terakhir': pembayaran_list.first(),
+        'riwayat_gangguan': gangguan_list,
+        # HAPUS total_pembayaran, pembayaran_terakhir, riwayat_pembayaran
     }
-
     return render(request, 'web/pelanggan.html', context)
 
 
 @login_required
 def gangguan(request):
+    """Form laporan gangguan internet"""
     if request.method == 'POST':
         form = GangguanForm(request.POST)
         if form.is_valid():
             gangguan = form.save(commit=False)
             gangguan.user = request.user
             gangguan.save()
-            return redirect('gangguan')
+            messages.success(request, 'Laporan gangguan berhasil dikirim!')
+            return redirect('pelanggan')
     else:
         form = GangguanForm()
-
+    
     return render(request, 'web/gangguan.html', {'form': form})
 
-
-@login_required
-def bayar(request):
+def pembayaran(request):
+    """Halaman informasi pembayaran + form upload bukti"""
+    
     if request.method == 'POST':
         form = PembayaranForm(request.POST, request.FILES)
         if form.is_valid():
             pembayaran = form.save(commit=False)
-            pembayaran.user = request.user
+            if request.user.is_authenticated:
+                pembayaran.user = request.user
             pembayaran.save()
-            return redirect('bayar')
+            messages.success(request, 'Bukti pembayaran berhasil diupload! Admin akan segera mengkonfirmasi.')
+            return redirect('pembayaran')
     else:
         form = PembayaranForm()
-
-    return render(request, 'web/bayar.html', {'form': form})
+    
+    # Daftar bulan untuk dropdown
+    bulan_list = [
+        ('Januari 2025', 'Januari 2025'),
+        ('Februari 2025', 'Februari 2025'),
+        ('Maret 2025', 'Maret 2025'),
+        ('April 2025', 'April 2025'),
+        ('Mei 2025', 'Mei 2025'),
+        ('Juni 2025', 'Juni 2025'),
+        ('Juli 2025', 'Juli 2025'),
+        ('Agustus 2025', 'Agustus 2025'),
+        ('September 2025', 'September 2025'),
+        ('Oktober 2025', 'Oktober 2025'),
+        ('November 2025', 'November 2025'),
+        ('Desember 2025', 'Desember 2025'),
+    ]
+    
+    context = {
+        'form': form,
+        'bulan_list': bulan_list,
+        'page_title': 'Pembayaran',
+    }
+    return render(request, 'web/pembayaran.html', context)
 
 
 # ======================
-# ADMIN AREA
+# ADMIN AREA (IMPORT/EXPORT)
 # ======================
 
-def is_admin(user):
-    return user.is_superuser
-
-
+@staff_member_required
 def import_radboox(request):
+    """Import data Radboox dari file CSV"""
     if request.method == 'POST':
         form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -125,7 +132,6 @@ def import_radboox(request):
                 for encoding in ['utf-8', 'utf-8-sig', 'latin-1', 'cp1252']:
                     try:
                         decoded_file = raw_data.decode(encoding)
-                        print(f"✅ Decode dengan encoding: {encoding}")
                         break
                     except UnicodeDecodeError:
                         continue
@@ -139,10 +145,7 @@ def import_radboox(request):
                     decoded_file = decoded_file[1:]
                 
                 io_string = io.StringIO(decoded_file)
-                reader = csv.DictReader(io_string)  # Gunakan DictReader untuk membaca header
-                
-                # Tampilkan header untuk debugging
-                print("Header CSV:", reader.fieldnames)
+                reader = csv.DictReader(io_string)
                 
                 success_count = 0
                 error_count = 0
@@ -150,28 +153,28 @@ def import_radboox(request):
                 
                 for row_num, row in enumerate(reader, start=2):
                     try:
-                        # Validasi data penting
+                        # Validasi username
                         if not row.get('username'):
                             errors.append(f"Baris {row_num}: Username tidak boleh kosong")
                             error_count += 1
                             continue
                         
-                        # Cek apakah username sudah ada
+                        # Cek duplikat username
                         if Radboox.objects.filter(username=row['username']).exists():
                             errors.append(f"Baris {row_num}: Username '{row['username']}' sudah ada")
                             error_count += 1
                             continue
                         
-                        # Buat objek Radboox sesuai struktur CSV
+                        # Buat objek Radboox
                         radboox = Radboox(
-                            no=row.get('no') if row.get('no') else None,
+                            no=row.get('no') or None,
                             username=row['username'],
                             password=row.get('password', ''),
                             profile=row.get('profile', ''),
                             nas=row.get('nas', ''),
                             service=row.get('service', ''),
                             ip=row.get('ip', ''),
-                            name=row.get('name', row['username']),  # Gunakan username jika name kosong
+                            name=row.get('name', row['username']),
                             phone=row.get('phone', ''),
                             address=row.get('address', ''),
                             status='Aktif'
@@ -182,52 +185,28 @@ def import_radboox(request):
                     except Exception as e:
                         errors.append(f"Baris {row_num}: {str(e)}")
                         error_count += 1
-                        continue
                 
-                # Tampilkan pesan hasil import
+                # Pesan hasil import
                 if success_count > 0:
-                    messages.success(
-                        request, 
-                        f'✅ Berhasil mengimport {success_count} data Radboox!'
-                    )
-                
+                    messages.success(request, f'✅ Berhasil mengimport {success_count} data Radboox!')
                 if error_count > 0:
-                    error_msg = f'⚠️ Gagal mengimport {error_count} data.'
-                    if errors:
-                        error_msg += f' Error pertama: {errors[0]}'
-                    messages.warning(request, error_msg)
-                
-                # Log errors ke console
-                if errors:
-                    print("\n".join(errors[:10]))
+                    messages.warning(request, f'⚠️ Gagal mengimport {error_count} data. {errors[0] if errors else ""}')
                 
             except Exception as e:
                 messages.error(request, f'❌ Terjadi kesalahan: {str(e)}')
-                print(f"Error detail: {str(e)}")
                 
             return redirect('import_radboox')
     else:
         form = CSVUploadForm()
     
-    # Hitung statistik untuk ditampilkan di template
     context = {
         'form': form,
-        'page_title': 'Import Data Radboox',
         'total_data': Radboox.objects.count(),
-        'header_format': ['no', 'username', 'password', 'profile', 'nas', 'service', 'ip', 'name', 'phone', 'address'],
     }
     return render(request, 'web/import_radboox.html', context)
 
 
-# pembayaran
-def pembayaran(request):
-    """Halaman informasi pembayaran"""
-    return render(request, 'web/pembayaran.html')
-
-# ======================
-# Upload CSV
-# ======================
-
+@staff_member_required
 def download_template(request):
     """Download template CSV untuk import data Radboox"""
     
@@ -248,19 +227,15 @@ def download_template(request):
     
     return response
 
-# ========================
-# Export CSV
-# ========================
 
-@staff_member_required  # Hanya admin yang bisa export
+@staff_member_required
 def export_radboox_csv(request):
     """Export semua data Radboox ke file CSV"""
     
     # Buat response
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="radboox_export_{}.csv"'.format(
-        datetime.now().strftime('%Y%m%d_%H%M%S')
-    )
+    filename = f"radboox_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
     
     # Buat writer
     writer = csv.writer(response)
@@ -286,5 +261,3 @@ def export_radboox_csv(request):
         ])
     
     return response
-
-
