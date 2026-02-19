@@ -1,0 +1,290 @@
+/* ======================================== */
+/*  PRICING PAGE - BRZ AZURE GOLD THEME    */
+/* ======================================== */
+
+.hero-pricing {
+    min-height: 50vh;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    display: flex;
+    align-items: center;
+    padding: 60px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-pricing-icon {
+    font-size: 180px;
+    color: #00cfff;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0,207,255,0.3));
+    transition: all 0.3s ease;
+}
+
+.hero-pricing-icon:hover {
+    color: #ffc107;
+    transform: scale(1.05);
+    filter: drop-shadow(0 15px 30px rgba(255,193,7,0.4));
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.promo-badge {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.promo-badge-gratis {
+    background: rgba(255,193,7,0.1);
+    border: 1px solid #ffc107;
+    color: #b38f00;
+}
+
+.promo-badge-mulai {
+    background: rgba(0,207,255,0.1);
+    border: 1px solid #00cfff;
+    color: #0099cc;
+}
+
+.feature-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: rgba(0,207,255,0.05);
+    border: 1px solid rgba(0,207,255,0.2);
+    color: #0099cc;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.package-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,207,255,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.package-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,207,255,0.15);
+    border-color: #00cfff;
+}
+
+.package-card.popular {
+    border: 2px solid #ffc107;
+    box-shadow: 0 10px 30px rgba(255,193,7,0.2);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: #ffc107;
+    color: #212529;
+    padding: 8px 40px;
+    font-size: 12px;
+    font-weight: 800;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.package-icon {
+    font-size: 56px;
+    color: #00cfff;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.package-card:hover .package-icon {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.package-speed {
+    font-size: 28px;
+    font-weight: 800;
+    color: #212529;
+    margin-bottom: 5px;
+}
+
+.package-price {
+    font-size: 36px;
+    font-weight: 900;
+    color: #00cfff;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.package-price small {
+    font-size: 16px;
+    color: #6c757d;
+    font-weight: normal;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0 30px;
+    text-align: left;
+}
+
+.feature-item {
+    padding: 8px 0;
+    color: #495057;
+    border-bottom: 1px dashed #e9ecef;
+    display: flex;
+    align-items: center;
+}
+
+.feature-item i {
+    color: #ffc107;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.btn-package {
+    background: linear-gradient(145deg, #00cfff, #0099cc);
+    color: white;
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.btn-package:hover {
+    background: linear-gradient(145deg, #0099cc, #0077b3);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,207,255,0.3);
+}
+
+.guarantee-section {
+    margin-top: 60px;
+    padding: 40px 0;
+    background: rgba(255,255,255,0.7);
+    border-radius: 24px;
+}
+
+.guarantee-item {
+    text-align: center;
+    padding: 20px;
+}
+
+.guarantee-icon {
+    font-size: 48px;
+    color: #00cfff;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.guarantee-item:hover .guarantee-icon {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.guarantee-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #212529;
+}
+
+.guarantee-text {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.accordion-brz .accordion-item {
+    border: 1px solid rgba(0,207,255,0.2);
+    border-radius: 16px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.accordion-brz .accordion-button {
+    font-weight: 700;
+    color: #212529;
+    background: white;
+    padding: 20px;
+}
+
+.accordion-brz .accordion-button:not(.collapsed) {
+    background: linear-gradient(145deg, #00cfff, #0099cc);
+    color: white;
+}
+
+.btn-brz-wa {
+    background: linear-gradient(145deg, #25D366, #128C7E);
+    color: white;
+    font-weight: 700;
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-brz-wa:hover {
+    background: linear-gradient(145deg, #128C7E, #075E54);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(37,211,102,0.3);
+}
+
+.btn-brz-outline {
+    background: transparent;
+    color: #00cfff;
+    border: 2px solid #00cfff;
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-brz-outline:hover {
+    background: #00cfff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 992px) {
+    .hero-pricing-icon {
+        font-size: 120px;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .package-card {
+        padding: 25px 15px;
+    }
+    
+    .package-price {
+        font-size: 32px;
+    }
+    
+    .guarantee-section {
+        padding: 25px 0;
+    }
+}

@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     'www.kapalp3cah.pythonanywhere.com',
     '127.0.0.1',
     'localhost',
+    #'*',
 ]
 
 
@@ -126,7 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Untuk hasil collectstatic
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Folder static Anda
+    os.path.join(BASE_DIR, 'web', 'static'),  # Folder static Anda
 ]
 
 # ===== STORAGE CONFIGURATION =====
@@ -146,9 +147,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'  # PENTING: Redirect setelah logout
-
-# ===== LOGOUT CONFIGURATION =====
-LOGOUT_REDIRECT_URL = 'home'  # Atau 'login' jika ingin ke halaman login
 
 # ===== SESSION CONFIGURATION =====
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Session expired saat browser ditutup
